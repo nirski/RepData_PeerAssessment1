@@ -27,6 +27,8 @@ library(scales)
 # install_github("jrnold/ggthemes")
 library(ggthemes)
 library(pander)
+
+options(scipen = 1, digits = 2)
 ```
 
 The data is provided as a CSV file `activity.csv`. First, it is loaded as a `tbl_df` object, suitable for further processing with `dplyr`. Next, dates and intervals are transformed into a POSIX compliant form:
@@ -91,8 +93,8 @@ activity.stats %>% pander
 # activity.daily$steps %>% median(na.rm = TRUE)
 ```
 
-1. The **mean** is $`r activity.daily$steps %>% mean(na.rm = TRUE)`$.
-2. The **median** is $`r activity.daily$steps %>% median(na.rm = TRUE)`$.
+1. The **mean** is `r activity.daily$steps %>% mean(na.rm = TRUE)`.
+2. The **median** is `r activity.daily$steps %>% median(na.rm = TRUE)`.
 
 ## What is the average daily activity pattern?
 
@@ -124,7 +126,7 @@ activity.hourly %>%
     filter(steps == max(steps))
 ```
 
-The maximum number of steps ($`r activity.hourly %>% filter(steps == max(steps)) %>% .$steps`$) happens at the interval of $`r activity.hourly %>% filter(steps == max(steps)) %>% .$hour %>% format("%H:%M")`$.
+The maximum number of steps (`r activity.hourly %>% filter(steps == max(steps)) %>% .$steps`) happens at the interval of `r activity.hourly %>% filter(steps == max(steps)) %>% .$hour %>% format("%H:%M")`.
 
 ## Imputing missing values
 
@@ -188,8 +190,8 @@ activity.stats %>% pander
 # activity.daily$steps.imputed %>% median(na.rm = TRUE)
 ```
 
-1. The **mean** is $`r mean(activity.daily$steps.imputed, na.rm = TRUE)`$, which is almost the same as the mean of the original data ($`r mean(activity.daily$steps, na.rm = TRUE)`$).
-2. The **median** is $`r median(activity.daily$steps.imputed, na.rm = TRUE)`$, which is slightly less than the median of the original data ($`r median(activity.daily$steps, na.rm = TRUE)`$).
+1. The **mean** is `r mean(activity.daily$steps.imputed, na.rm = TRUE)`, which is almost the same as the mean of the original data (`r mean(activity.daily$steps, na.rm = TRUE)`).
+2. The **median** is `r median(activity.daily$steps.imputed, na.rm = TRUE)`, which is slightly less than the median of the original data (`r median(activity.daily$steps, na.rm = TRUE)`).
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
@@ -238,4 +240,3 @@ activity.hourly.weekend %>%
 ```{r}
 sessionInfo()
 ```
-

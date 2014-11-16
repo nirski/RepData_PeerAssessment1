@@ -20,6 +20,8 @@ library(scales)
 # install_github("jrnold/ggthemes")
 library(ggthemes)
 library(pander)
+
+options(scipen = 1, digits = 2)
 ```
 
 The data is provided as a CSV file `activity.csv`. First, it is loaded as a `tbl_df` object, suitable for further processing with `dplyr`. Next, dates and intervals are transformed into a POSIX compliant form:
@@ -162,8 +164,8 @@ Median   10765
 # activity.daily$steps %>% median(na.rm = TRUE)
 ```
 
-1. The **mean** is $1.0766189\times 10^{4}$.
-2. The **median** is $10765$.
+1. The **mean** is 10766.19.
+2. The **median** is 10765.
 
 ## What is the average daily activity pattern?
 
@@ -229,11 +231,11 @@ activity.hourly %>%
 ```
 ## Source: local data frame [1 x 3]
 ## 
-##   interval                hour    steps
-## 1      835 1900-01-01 08:35:00 206.1698
+##   interval                hour steps
+## 1      835 1900-01-01 08:35:00   206
 ```
 
-The maximum number of steps ($206.1698113$) happens at the interval of $08:35$.
+The maximum number of steps (206.17) happens at the interval of 08:35.
 
 ## Imputing missing values
 
@@ -356,8 +358,8 @@ Median   10765       10762
 # activity.daily$steps.imputed %>% median(na.rm = TRUE)
 ```
 
-1. The **mean** is $1.0765639\times 10^{4}$, which is almost the same as the mean of the original data ($1.0766189\times 10^{4}$).
-2. The **median** is $1.0762\times 10^{4}$, which is slightly less than the median of the original data ($10765$).
+1. The **mean** is 10765.64, which is almost the same as the mean of the original data (10766.19).
+2. The **median** is 10762, which is slightly less than the median of the original data (10765).
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
@@ -464,4 +466,3 @@ sessionInfo()
 ## [21] Rcpp_0.11.3      reshape2_1.4     rmarkdown_0.3.12 stringr_0.6.2   
 ## [25] tools_3.1.2      yaml_2.1.13
 ```
-

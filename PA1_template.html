@@ -81,7 +81,9 @@ library(scales)
 # library(devtools)
 # install_github(&quot;jrnold/ggthemes&quot;)
 library(ggthemes)
-library(pander)</code></pre>
+library(pander)
+
+options(scipen = 1, digits = 2)</code></pre>
 <p>The data is provided as a CSV file <code>activity.csv</code>. First, it is loaded as a <code>tbl_df</code> object, suitable for further processing with <code>dplyr</code>. Next, dates and intervals are transformed into a POSIX compliant form:</p>
 <ol style="list-style-type: lower-alpha">
 <li><code>hour</code> is a POSIX time variable, coupled with a dummy date (1900-01-01),</li>
@@ -325,8 +327,8 @@ activity.stats %&gt;% pander</code></pre>
 <pre class="r"><code># activity.daily$steps %&gt;% mean(na.rm = TRUE)
 # activity.daily$steps %&gt;% median(na.rm = TRUE)</code></pre>
 <ol style="list-style-type: decimal">
-<li>The <strong>mean</strong> is <span class="math">\(1.0766189\times 10^{4}\)</span>.</li>
-<li>The <strong>median</strong> is <span class="math">\(10765\)</span>.</li>
+<li>The <strong>mean</strong> is 10766.19.</li>
+<li>The <strong>median</strong> is 10765.</li>
 </ol>
 </div>
 <div id="what-is-the-average-daily-activity-pattern" class="section level2">
@@ -420,9 +422,9 @@ activity.hourly %&gt;% sample_n(10) %&gt;% arrange(hour) %&gt;% pander(split.tab
     filter(steps == max(steps))</code></pre>
 <pre><code>## Source: local data frame [1 x 3]
 ## 
-##   interval                hour    steps
-## 1      835 1900-01-01 08:35:00 206.1698</code></pre>
-<p>The maximum number of steps (<span class="math">\(206.1698113\)</span>) happens at the interval of <span class="math">\(08:35\)</span>.</p>
+##   interval                hour steps
+## 1      835 1900-01-01 08:35:00   206</code></pre>
+<p>The maximum number of steps (206.17) happens at the interval of 08:35.</p>
 </div>
 <div id="imputing-missing-values" class="section level2">
 <h2>Imputing missing values</h2>
@@ -586,8 +588,8 @@ activity.stats %&gt;% pander</code></pre>
 <pre class="r"><code># activity.daily$steps.imputed %&gt;% mean(na.rm = TRUE)
 # activity.daily$steps.imputed %&gt;% median(na.rm = TRUE)</code></pre>
 <ol style="list-style-type: decimal">
-<li>The <strong>mean</strong> is <span class="math">\(1.0765639\times 10^{4}\)</span>, which is almost the same as the mean of the original data (<span class="math">\(1.0766189\times 10^{4}\)</span>).</li>
-<li>The <strong>median</strong> is <span class="math">\(1.0762\times 10^{4}\)</span>, which is slightly less than the median of the original data (<span class="math">\(10765\)</span>).</li>
+<li>The <strong>mean</strong> is 10765.64, which is almost the same as the mean of the original data (10766.19).</li>
+<li>The <strong>median</strong> is 10762, which is slightly less than the median of the original data (10765).</li>
 </ol>
 </div>
 <div id="are-there-differences-in-activity-patterns-between-weekdays-and-weekends" class="section level2">
