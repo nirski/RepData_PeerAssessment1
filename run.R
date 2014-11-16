@@ -9,7 +9,8 @@ library(scales)
 library(ggthemes)
 library(pander)
 
-activity <- read.csv("data/activity.csv", stringsAsFactors = FALSE) %>%
+activity <- "data/activity.csv" %>%
+    read.csv(stringsAsFactors = FALSE) %>%
     tbl_df %>%
     mutate(
         hour = sprintf("%04d", interval),
@@ -27,16 +28,20 @@ activity.hourly <- activity %>%
     summarise(steps = mean(steps, na.rm = TRUE))
 
 activity %>% filter(!complete.cases(activity)) %>% tally
-summary(activity)
+activity %>% complete.cases %>% table
+summary(activity$steps)
 summary(activity.daily)
 table(is.na(activity$steps))
+length(complete.cases(activity))
 
 activity.daily %>%
-    ggplot() +
-    geom_histogram(aes(steps), binwidth = 2000)
+    ggplot +
+    geom_histogram(aes(steps), binwidth = 2000) +
+    theme_pander() +
+    scale_colour_pander()
 
 activity.hourly %>%
-    ggplot() +
+    ggplot +
     geom_line(aes(hour.posix, steps)) +
     scale_x_datetime(labels = date_format("%H:%M")) +
     theme_pander() +
@@ -79,3 +84,25 @@ autoplot(activity.xts.daily)
 autoplot(activity.xts.daily %>% na.approx)
 autoplot(activity.xts.daily %>% na.aggregate)
 autoplot(activity.xts.daily %>% na.locf)
+
+activity.daily.imp <- activity.xts %>%
+    na.aggregate %>%
+    apply.daily(sum) %>%
+    fortify %>%
+    select(
+        date = as.Date(Index),
+        steps = ...
+    )
+    
+    fortify %>%
+    ggplot +
+    geom_histogram(aes(steps), binwidth = 2000) +
+    theme_pander() +
+    scale_colour_pander()
+
+# --------------------------------------------------------------------------------------------------
+
+activity.imputed <- activity %>%
+    left_join(activity.hourly %>% select(interval, steps.imputed = steps)) %>%
+    mutate(steps = ifelse(is.na(steps), round(steps.imputed), steps)) %>%
+    select(-steps.imputed)
